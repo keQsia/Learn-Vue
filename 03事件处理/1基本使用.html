@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <button v-on:click="showInfo">点一下</button>
+        <button @click="showInfo2(66,$event)">点一下2</button>
+    </div>
+    <script type="text/javascript">
+        Vue.config.productionTip = false//阻止vue在启动时生成生产提示
+        
+        const vm =  new Vue({
+            el: '#root',
+            data: {
+                name: 'vue',
+                myname: 'Carlos'
+            },
+            methods: {
+                showInfo(event){
+                    alert("你好");
+                    console.log(event.target.innerText);
+                },
+                showInfo2(number,a){
+                    alert(number);
+                    console.log(a);
+                }
+            }
+        })
+    </script>
+</body>
+</html>

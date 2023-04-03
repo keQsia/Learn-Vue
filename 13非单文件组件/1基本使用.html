@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+    <div id="root">
+        <hello></hello>
+        <hr>
+        <!-- 三、编写组件标签 -->
+        <school></school>
+        <hr>
+        <student></student>
+        <!-- <xuexiao></xuexiao>
+        <hr>
+        <xuesheng></xuesheng> -->
+    </div>
+        
+    <div id="root2">
+        <hr>
+        <hello></hello>
+    </div>
+</body>
+    <script type="text/javascript">
+        Vue.config.productionTip = false//阻止vue在启动时生成生产提示
+
+        // 一、创建school组件
+        const school = Vue.extend({
+            template: `
+                <div>
+                    <h2>学校名称：{{schoolName}}</h2>
+                    <h2>学校地址：{{address}}</h2>
+                    <button @click="showName">点我提示学校名</button>
+                </div>
+            `,
+            // el: '#root',//因为所有组件都被一个vm管理，vm决定服务是否运行
+            data() {
+                return {
+                    schoolName: '北京大学',
+                    address: '北京昌平'
+                }
+            },
+            methods: {
+                showName(){
+                    alert(this.schoolName);
+                }
+            }
+        })
+
+        const hello = Vue.extend({
+            template: `
+                <div>
+                    <h2>你好啊</h2>
+                </div>
+            `
+        })
+
+        //二、全局注册组件
+        Vue.component('hello', hello)
+
+        // 创建student组件
+        const student = Vue.extend({
+            template: `
+                <div>
+                    <h2>学生姓名：{{studentName}}</h2>
+                    <h2>学生年龄：{{age}}</h2>
+                </div>
+            `,
+            data() {
+                return {
+                    studentName: '张三',
+                    age: 18
+                }
+            }
+        })
+
+
+
+        new Vue({
+            el: '#root',
+            // 二、注册组件(局部注册)
+            components: {
+                school,
+                student
+            }
+        })
+
+        new Vue({
+            el: '#root2',
+            // 二、注册组件(局部注册)
+            components: {
+                school,
+                student
+            }
+        })
+    </script>
+</html>

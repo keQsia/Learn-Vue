@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <!-- v-show条件渲染 -->
+        <!-- <h2 v-show="false">欢迎</h2> -->
+        <!-- v-if做条件渲染 -->
+        <!-- <h2 v-if="1 === 1">欢迎</h2> -->
+
+        <!-- if和else-if这些必须挨在一起才能发挥作用 -->
+        <h2>当前的n是{{n}}</h2>
+        <button @click="n++">点我+1</button>
+        <!-- <div v-if="n === 1">Angular</div> -->
+        <!-- <div v-else-if="n === 2">React</div> -->
+        <!-- <div v-else>Vue</div> -->
+
+        <!-- 模板只能与v-if配合使用，并且实际渲染标签会被去除 -->
+        <template v-if="n === 2">
+            <h2>你好</h2>
+            <h2>难受</h2>
+            <h2>原来是</h2>
+        </template>
+    </div>
+    <script type="text/javascript">
+        Vue.config.productionTip = false//阻止vue在启动时生成生产提示
+        
+        const vm =  new Vue({
+            el: '#root',
+            data: {
+                n: 1
+            },
+            methods: {
+                //只需要getter时才可以简写
+                changeMood(){
+                    const arr = ['happy','sad','normal']
+                    this.mood = arr[Math.floor(Math.random()*3)];
+                }
+            }
+        })
+    </script>
+</body>
+</html>

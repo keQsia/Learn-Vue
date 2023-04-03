@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        姓：<input type="text" v-model="firstname"><br/><br/>
+        名:<input type="text" v-model="lastname"><br/><br/>
+        姓名：<span>{{fullName}}</span>
+    </div>
+    <script type="text/javascript">
+        Vue.config.productionTip = false//阻止vue在启动时生成生产提示
+        
+        const vm =  new Vue({
+            el: '#root',
+            data: {
+                firstname: 'firstname',
+                lastname: 'lastname'
+            },
+            computed: {
+                fullName: {
+                    // 有人读取fullname时get就会被调用，返回值作为fullname值
+                    // 初次读取fullName时调用get，所依赖的数据发生变化时get被调用
+                    get(){
+                        return this.firstname + '-' + this.lastname;
+                    },
+                    // fullName被修改时自动调用set并且将其作为参数传入
+                    set(value){
+                        console.log('set',value);
+                        const arr = value.split('-');
+                        this.firstname = arr[0];
+                        this.lastname = arr[1];
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>

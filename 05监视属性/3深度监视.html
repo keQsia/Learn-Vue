@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>监视天气</title>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+    <div id="root">
+        <h2>今天天气很{{info}}</h2>
+        <button @click="change">切换天气</button>
+        <h3>a的值是{{numbers.a}}</h3>
+        <button @click="numbers.a++">点我a+</button>
+        <h3>b的值是{{numbers.b}}</h3>
+        <button @click="numbers.b++">点我b+</button>
+        <!-- 简单的表达式允许直接使用 -->
+        <!-- <button @click="isHot = !isHot">切换天气</button> -->
+    </div>
+</body>
+<script type="text/javascript">
+    Vue.config.productionTip = false;
+
+    const vm = new Vue({
+        el: '#root',
+        data: {
+            isHot: true,
+            numbers: {
+                a: 1,
+                b: 1
+            }
+        },
+        methods: {
+            change() {
+                this.isHot = !this.isHot;
+            }
+        },
+        computed: {
+            info() {
+                return this.isHot ? '炎热' : '凉爽';
+            }
+        },
+        watch: {
+            isHot: {
+                immediate: true,//初始化时让handler调用一下
+                // 当isHot发生改变时调用
+                handler(newValue, oldValue){
+                    console.log('改了', newValue, oldValue);
+                }
+            },
+            // 监视多级结构中某个属性的变化，需要严格使用字符串作为key
+            // 'numbers.a': {
+            //     handler(){
+            //         console.log("a改变了");
+            //     }
+            // }
+                
+            // 监视多级结构所有属性变化
+            numbers: {
+                deep: true,
+                handler(){
+                    console.log("改变了");
+                }
+            }
+        }
+    })
+    // vm.$watch('isHot',{
+    //     immediate: true,//初始化时让handler调用一下
+    //     // 当isHot发生改变时调用
+    //     handler(newValue, oldValue) {
+    //         console.log('改了', newValue, oldValue);
+    //     }
+    // })
+</script>
+</html>

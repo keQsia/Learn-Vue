@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        [v-clock]{
+            display: none;
+        }
+    </style>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+    <!-- 定义一个v-big指令，和v-text功能类似，但会把绑定的数值放大10倍
+    定义一个v-fbind指令，可以让其所绑定的input元素默认获取焦点 -->
+    <div id="root">
+        <h2>当前的n：<span v-text="n"></span></h2>
+        <h2>放大十倍n：<span v-big="n"></span></h2>
+        <button @click="n++">点我+1</button><br><br>
+        <input type="text" v-f-bind:value="n">
+    </div>
+</body>
+    <script type="text/javascript">
+        // 注意这样就可以全局使用而不是只能在唯一元素上使用
+        Vue.directive('big', function (ele, binding) {//ele将元素的所有属性作为对象进行返回，binding则控制输入的返回效果
+            ele.innerText = binding.value * 10;
+        },)
+        const vm = new Vue({
+            el: '#root',
+            data: {
+                n: 1
+            },
+            directives: {
+                // 调用时机：指令与元素成功绑定时；指令所在的模板被重新解析时
+                // big(ele, binding){//ele将元素的所有属性作为对象进行返回，binding则控制输入的返回效果
+                //     ele.innerText = binding.value * 10;
+                // },
+                'f-bind': {//存在-可以修改成大写或者直接使用字符串两种方式
+                    // 指令与元素成功绑定时
+                    bind(ele, binding){
+                        ele.value = binding.value;
+                    },
+                    // 指令所在元素被插入页面时
+                    inserted(ele, binding){
+                        ele.focus();
+                    },
+                    // 指令所在的模板被重新解析时
+                    update(ele, binding){
+                        ele.value = binding.value;
+                        console.log(self);
+                    }
+                }
+            }
+        })
+        console.log(vm);
+    </script>
+</html>
